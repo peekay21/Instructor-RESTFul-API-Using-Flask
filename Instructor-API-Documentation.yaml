@@ -1,0 +1,345 @@
+openapi: 3.0.0
+info:
+  title: Instructor Open API Documentation
+  version: 1.0.0
+  description: |
+    The Instructor schema is a database structure that stores information about instructors, such as their id, name, department name, and salary. The Instructor schema is an important part of any educational institution's database, as it allows for easy access to instructor information.
+    <h2>ER Diagram</h2>
+    <img src="https://mermaid.ink/img/pako:eNplj0EKw0AIRa8yuM4JZt0bdDtQJNp0aMYJxixCyN1rMi2l1NXn-dXvBn0lhgisl4yDYkmSJHhlmU2X3qqGrZFGjQfWkOnL3JdlCIKF_yDxZLffzmfFjCPq2vh-XD0kdFBYC2byTOfdBPZgn4foklCfCZLs7sPF6nWVHqLn5A6WidD4_QXEO44z7y8B1kf5?type=png">
+    <h2> Error Codes </h2>  
+    <table>
+      <thead>
+        <th>Resource</th>
+        <th>Error Code</th>
+        <th>Message</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Instructor</td>
+        <td> BL1001</td>
+        <td> name is required</td>
+      </tr>
+      
+      <tr>
+        <td>Instructor</td>
+        <td> BL1002</td>
+        <td> dept_name is required</td>
+      </tr>
+      
+      <tr>
+        <td>Instructor</td>
+        <td> BL1003</td>
+        <td> dept_name is not allowed</td>
+      </tr>
+      
+      <tr>
+        <td>Instructor</td>
+        <td> BL1004</td>
+        <td> Duplicate id</td>
+      </tr>
+      <tr>
+        <td>Instructor</td>
+        <td> BL1005</td>
+        <td> Salary is required</td>
+      </tr>
+      <tr>
+        <td>Instructor</td>
+        <td> BL1006</td>
+        <td> Salary should be positive</td>
+      </tr>
+      </tbody>
+    </table>
+    <P>Note: dept_name will take only EE, CSE, IT, CE, ECE values.
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+  /api/instructor/{name}:
+    description: >-
+      End point to read, update and delete a user resource with username.
+    get:
+      description: Operation to get a instructor details
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: pradip
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: user object
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 201
+                  name:
+                    type: string
+                    example: pradip
+                  dept_name:
+                    type: string
+                    example: CSE
+                  salary:
+                    type: integer
+                    example: 120000
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+OB                    example: 400
+                  error_message:
+                    type: string
+                    example: Bad request
+OB        '404':
+          description: Resource not found.
+          content:
+OB            application/json:
+              schema:
+                type: object
+                properties:
+OB                  error_code:
+                    type: string
+                    example: 404
+OB                  error_message:
+                    type: string
+                    example: Not Found
+OB        '500':
+OB          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+OB                type: object
+OB                properties:
+                  error_code:
+                    type: string
+                    example: 500
+                  error_message:
+OBOB                    type: string
+                    example: Internal Server Error
+OBOB    put:
+      description: Operation to update the instructor detail
+OB      parameters:
+        - in: path
+OB          name: name
+          required: true
+          schema:
+            type: string
+OB            example: pradip
+      requestBody:
+OB        content:
+          application/json:
+            schema:
+OB              type: object
+              properties:
+                dept_name:
+                  type: string
+                  example: ECE
+                salary:
+                  type: integer
+                  example: 34000
+      responses:
+        '200':
+          description: Successfuly updated.
+          content:
+OBOBOB            application/json:
+OB              schema:
+                title: user object
+                type: object
+OB                properties:
+OB                  id:
+OB                    type: integer
+OB                    example: 201
+OB                  name:
+                    type: string
+OB                    example: ali
+OBOB                  dept_name:
+                    type: string
+                    example: ECE
+                  salary:
+OBOBOB                    type: integer
+                    example: 34000
+OB        '400':
+          description: Bad request.
+OBOB          content:
+            application/json:
+OB              schema:
+                type: object
+OBOB                properties:
+                  error_code:
+                    type: string
+                    example: 400
+OB                  error_message:
+                    type: string
+                    example: Bad request
+        '404':
+OB          description: Resource you requested to update not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+OB                  error_code:
+                    type: string
+                    example: 404
+                  error_message:
+                    type: string
+                    example: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+OBOBOB              schema:
+                type: object
+OB                properties:
+OB                  error_code:
+OB                    type: string
+                    example: 500
+OB                  error_message:
+OB                    type: string
+                    example: Internal Server Error
+OBOB    delete:
+OB      description: Operation to delete the instructor.
+OBOB      parameters:
+OB        - in: path
+OBOB          name: name
+OB          required: true
+          schema:
+            type: string
+            example: Pradip
+OBOBOBOB      responses:
+        '200':
+OB          description: Successfully Deleted.
+          content:
+            application/json:
+OBOBOB              schema:
+                type: object
+OB                
+                  
+OBOB        '400':
+          description: Bad Request.
+OB          content:
+            application/json:
+OB              schema:
+                type: object
+OBOB                properties:
+                  error_code:
+                    type: string
+                    example: 400
+OB                  error_message:
+                    type: string
+                    example: Bad Request
+        '404':
+          description: Instructor does not exist.
+          content:
+OB            application/json:
+              schema:
+                type: object
+                properties:
+OBOBOB                  error_code:
+OB                    type: string
+                    example: 404
+                  error_message:
+OBOB                    type: string 
+OB                    example: Not Found
+        '500':
+OB          description: Intenal Server Error.
+OB          content:
+OB            application/json:
+OBOBOB              schema:
+OB                type: object
+                properties:
+                  error_code:
+OB                    type: string
+                    example: 500
+OBOBOB                  error_message:
+                    type: string 
+OBOB                    example: Internal Server Error
+          
+OBOBOBOB  /api/instructor:
+    description: End point to create a instructor.
+OBOB    post:
+      description: Operation to create the instructor.
+OB      requestBody:
+        content:
+OBOB          application/json:
+            schema:
+OB              title: instructor object
+              type: object
+OBOB              properties:
+                name:
+                  type: string
+                  example: Pradip
+OB                dept_name:
+                  type: string
+                  example: CE
+                salary:
+OB                  type: integer
+                  example: 120000
+      responses:
+        '201':
+OB          description: Successfully Created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 202
+                  name:
+                    type: string
+                    example: Pradip
+                  dept_name: 
+                    type: string
+                    example: CE
+                  salary:
+                    type: integer
+                    example: 120000
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                    example: 400
+                  error_message:
+                    type: string
+                    example: Bad Request
+        '409':
+          description: username already exist.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                    example: 409
+                  error_message:
+                    type: string
+                    example: Username Already exist
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                    example: 500
+                  error_message:
+                    type: string
+                    example: Internal Server Error
